@@ -10,8 +10,9 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5001;
 
-// authentication
-app.use("/api/auth", authRoutes);
+// configurations
+app.use(express.json()); // parser of the body of the requests
+app.use("/api/auth", authRoutes); // authentication route
 
 app.listen(PORT, () => {
   console.log("[ SERVER IS RUNNING AT http://localhost:" + PORT + " ]");
