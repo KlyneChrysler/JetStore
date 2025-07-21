@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 // route imports
 import authRoutes from "./routes/auth.route.js";
 import productRoutes from "./routes/product.route.js";
+import cartRoutes from "./routes/cart.route.js";
 // database imports
 import { connectDB } from "./lib/db.js";
 
@@ -17,8 +18,9 @@ app.use(express.json()); // parser of the body of the requests
 app.use(cookieParser()); // cookie parser method
 // routes
 app.use("/api/auth", authRoutes); // authentication route // the endpoint is handled by the authRoutes file
-app.use("/api/products", productRoutes); // product route // the endpoint is handled by the productRoute file
-
+app.use("/api/products", productRoutes); // product route // the endpoint is handled by the productRoutes file
+app.use("/api/cart", cartRoutes); // cart route // the endpoint is handled by the cartRoutes file
+// server
 app.listen(PORT, () => {
   console.log("[ SERVER IS RUNNING AT http://localhost:" + PORT + " ]");
   connectDB();
