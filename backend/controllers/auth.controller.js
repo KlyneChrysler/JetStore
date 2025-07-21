@@ -54,7 +54,7 @@ export const signup = async (req, res) => {
     // if userExists is not null its true so run the if logic
     if (userExists) {
       // return status 400 or will not proceed to process the clients req and a info res
-      return res.status(400).json({ message: "[ USER ALREADY EXISTS ]" });
+      return res.status(400).json({ message: "User already exist" });
     }
     // now use mongoose create method to create the user and store it to the user var
     const user = await User.create({ name, email, password });
@@ -75,9 +75,10 @@ export const signup = async (req, res) => {
         email: user.email,
         role: user.role,
       },
-      message: "[ USER CREATED SUCCESSFULLY ]",
+      message: "User created successfully",
     });
   } catch (error) {
+    console.log("Error in signup controller", error.message);
     res.status(500).json({ message: error.message });
   }
 };
@@ -98,8 +99,21 @@ export const login = async (req, res) => {
       await storeRefreshToken(user._id, refreshToken);
       // now set cookies for this account
       setCookies(res, accessToken, refreshToken);
+      // get the res in json format
+      res.json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      });
+    } else {
+      // now if the user inputs wrong email or password it will show this
+      res.status(401).json({ message: "Invalid email or password" });
     }
-  } catch (error) {}
+  } catch (error) {
+    console.log("Error in login controller", error.message);
+    res.status(500).json({ message: error.message });
+  }
 };
 
 // Logout function
@@ -120,8 +134,52 @@ export const logout = async (req, res) => {
     // Clear from the cookies
     res.clearCookie("accessToken");
     res.clearCookie("refreshToken");
-    res.json({ message: "[ LOGGED OUT SUCESSFULLY ]" });
+    res.json({ message: "Logged out successfully" });
   } catch (error) {
+    console.log("Error in logout controller", error.message);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
+//this will refresh the access token
+export const refreshToken = async (req, res) => {
+  try {
+    // now get the refreshToken from the database using req and parse is with cookieparser and put it on the refreshToken var
+    const refreshToken = req.cookies.refreshToken;
+    // if refreshToken is null then get feedback
+    if (!refreshToken) {
+      return res.status(491).json({ message: "No refresh token provided" });
+    }
+    // This line verifies the refresh token using the secret key and returns the decoded payload (such as the user ID) if the token is valid.
+    const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+    // now get the formatted refreshToken from redis using get and store it at the storedToken var
+    const storedToken = await redis.get(`refresh_token:${decoded.userId}`);
+    // if storedToken is not equals to refreshToken then res feedback
+    if (storedToken !== refreshToken) {
+      return res.status(401).json({ message: "Invalid refresh token" });
+    }
+    // now generate new accessToken and put it on the accessToken var
+    const accessToken = jwt.sign(
+      { userId: decoded.userId },
+      process.env.ACCESS_TOKEN_SECRET,
+      {
+        expiresIn: "15m",
+      }
+    );
+    // now put the accessToken var in the cookies and set the cookie using res.cookie
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true, // to prevent XSS attacks or cross site scripting attacks
+      secure: process.env.NODE_ENV === "production", // only gonna be true in the production to use https for security
+      sameSite: "strict", // to prevent CSRF attacks or cross-site request forgery
+      maxAge: 15 * 60 * 1000, // expires in 15 minutes
+    });
+
+    res.json({ message: "Token refreshed successfully" });
+  } catch (error) {
+    console.log("Error in refreshToken controller", error.message);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
+// TODO: implement getProfile later
+// export const getProfile = async (req, res) => {};
