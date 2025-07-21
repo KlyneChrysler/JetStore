@@ -4,10 +4,11 @@ import jwt from "jsonwebtoken";
 
 // Tokens function
 const generateTokens = (userId) => {
+  // This line creates a JWT access token that includes the user ID, signs it using the secret key from the environment, and sets it to expire in 15 minutes.
   const accessToken = jwt.sign({ userId }, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: "15m",
   });
-
+  // This line creates a JWT access token that includes the user ID, signs it using the secret key from the environment, and sets it to expire in 7 days.
   const refreshToken = jwt.sign({ userId }, process.env.REFRESH_TOKEN_SECRET, {
     expiresIn: "7d",
   });
@@ -16,7 +17,9 @@ const generateTokens = (userId) => {
 };
 
 // Store RefreshToken function
+// for the paramater i took it from the refreshToken var in the generateToken
 const storeRefreshToken = async (userId, refreshToken) => {
+  // now put the refreshToken into the redis with a format and expiration data
   await redis.set(
     `refresh_token:${userId}`,
     refreshToken,
@@ -43,22 +46,28 @@ const setCookies = (res, accessToken, refreshToken) => {
 
 // Sign up function
 export const signup = async (req, res) => {
+  // requested email, password and name from the database using express req.body
   const { email, password, name } = req.body;
   try {
+    // if the email exist in the database put it on the userExists var
     const userExists = await User.findOne({ email });
-
+    // if userExists is not null its true so run the if logic
     if (userExists) {
+      // return status 400 or will not proceed to process the clients req and a info res
       return res.status(400).json({ message: "[ USER ALREADY EXISTS ]" });
     }
+    // now use mongoose create method to create the user and store it to the user var
     const user = await User.create({ name, email, password });
 
-    // authenticate the user
+    // authenticate the user and generate tokens for access and refresh
     const { accessToken, refreshToken } = generateTokens(user._id);
+    // now please wait to store the refreshToken to the redis that has the userId and token
     await storeRefreshToken(user._id, refreshToken);
 
-    // cookies
+    // now set cookies for the new user
     setCookies(res, accessToken, refreshToken);
 
+    // now send a res that contains the following except the password
     res.status(200).json({
       user: {
         _id: user._id,
@@ -96,13 +105,16 @@ export const login = async (req, res) => {
 // Logout function
 export const logout = async (req, res) => {
   try {
+    // used cookie parser for the cookies. and get the refreshToken from redis and store it on the refreshToken var
     const refreshToken = req.cookies.refreshToken;
+    // if refreshToken is not null then proceed on logic
     if (refreshToken) {
-      // delete refresh token from the redis
+      // used verify function to decode the token and put it in the decoded var
       const decoded = jwt.verify(
         refreshToken,
         process.env.REFRESH_TOKEN_SECRET
       );
+      // delete refresh token from the redis
       await redis.del(`refresh_token:${decoded.userId}`);
     }
     // Clear from the cookies
