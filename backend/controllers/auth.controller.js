@@ -73,8 +73,24 @@ export const signup = async (req, res) => {
   }
 };
 
+// Login function
 export const login = async (req, res) => {
-  res.send("[ LOGIN ROUTE CALLED ]");
+  try {
+    // req email and password from the database
+    const { email, password } = req.body;
+    // now find the user in the database that has that email then put it to the user variable
+    const user = await User.findOne({ email });
+
+    // if the user is found please wait for logic to compare the users' password for authentication, if fail then skip if
+    if (user && (await user.comparePassword(password))) {
+      // now generate tokens to store in accessToken and refreshToken
+      const { accessToken, refreshToken } = generateTokens(user._id);
+      // now this will take time, so please wait to store the refreshToken alongwith userId to the redis data storage
+      await storeRefreshToken(user._id, refreshToken);
+      // now set cookies for this account
+      setCookies(res, accessToken, refreshToken);
+    }
+  } catch (error) {}
 };
 
 // Logout function
