@@ -1,5 +1,5 @@
 import { redis } from "../lib/redis.js";
-import { cloudinary } from "../lib/cloudinary.js";
+import cloudinary from "../lib/cloudinary.js";
 import Product from "../models/product.model.js";
 
 // Export a function called getAllProducts that handles request and response

@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import User from "../models/user.model.js";
 
 // productRoute function for middleware
-export const protectRotute = async (req, res, next) => {
+export const protectRoute = async (req, res, next) => {
   try {
     // now get the accessToken from the database using req and parse is with cookieparser and put it on the accessToken var
     const accessToken = req.cookies.accessToken;

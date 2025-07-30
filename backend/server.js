@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth.route.js";
 import productRoutes from "./routes/product.route.js";
 import cartRoutes from "./routes/cart.route.js";
+import couponRoutes from "./routes/coupon.route.js";
 // database imports
 import { connectDB } from "./lib/db.js";
 
@@ -20,6 +21,8 @@ app.use(cookieParser()); // cookie parser method
 app.use("/api/auth", authRoutes); // authentication route // the endpoint is handled by the authRoutes file
 app.use("/api/products", productRoutes); // product route // the endpoint is handled by the productRoutes file
 app.use("/api/cart", cartRoutes); // cart route // the endpoint is handled by the cartRoutes file
+app.use("/api/coupons", couponRoutes); // coupon route // the endpoint is handled by the couponRoutes file
+
 // server
 app.listen(PORT, () => {
   console.log("[ SERVER IS RUNNING AT http://localhost:" + PORT + " ]");
