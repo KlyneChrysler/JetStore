@@ -6,6 +6,8 @@ import authRoutes from "./routes/auth.route.js";
 import productRoutes from "./routes/product.route.js";
 import cartRoutes from "./routes/cart.route.js";
 import couponRoutes from "./routes/coupon.route.js";
+import paymentRoutes from "./routes/payment.route.js";
+import analyticsRoutes from "./routes/analytics.route.js";
 // database imports
 import { connectDB } from "./lib/db.js";
 
@@ -22,6 +24,8 @@ app.use("/api/auth", authRoutes); // authentication route // the endpoint is han
 app.use("/api/products", productRoutes); // product route // the endpoint is handled by the productRoutes file
 app.use("/api/cart", cartRoutes); // cart route // the endpoint is handled by the cartRoutes file
 app.use("/api/coupons", couponRoutes); // coupon route // the endpoint is handled by the couponRoutes file
+app.use("/api/payments", paymentRoutes); // payment route // the endpoint is handled by the paymentRoutes file
+app.use("/api/analytics", analyticsRoutes); // analytics route // the endpoint is handled by the analyticsRoutes file
 
 // server
 app.listen(PORT, () => {
