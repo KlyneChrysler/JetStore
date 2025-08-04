@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import axios from "../lib/axios";
+import axios from "../lib/axios.js";
 import { toast } from "react-hot-toast";
 
 export const useUserStore = create((set, get) => ({
@@ -16,6 +16,7 @@ export const useUserStore = create((set, get) => ({
     }
 
     try {
+      console.log("Axios baseURL:", axios.defaults.baseURL);
       const res = await axios.post("/auth/signup", {
         name,
         email,
@@ -24,8 +25,29 @@ export const useUserStore = create((set, get) => ({
       set({ user: res.data.user, loading: false });
     } catch (error) {
       set({ loading: false });
+      console.log("Error:", error);
       toast.error(
-        error.response.data.message ||
+        error.response?.data.message ||
+          "An error occurred during signup, please try again."
+      );
+    }
+  },
+
+  login: async ({ email, password }) => {
+    set({ loading: true });
+
+    try {
+      console.log("Axios baseURL:", axios.defaults.baseURL);
+      const res = await axios.post("/auth/login", {
+        email,
+        password,
+      });
+      set({ user: res.data.user, loading: false });
+    } catch (error) {
+      set({ loading: false });
+      console.log("Error:", error);
+      toast.error(
+        error.response?.data.message ||
           "An error occurred during signup, please try again."
       );
     }

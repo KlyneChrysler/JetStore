@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 import { useUserStore } from "../stores/useUserStore";
 
 const SignUpPage = () => {
-  const loading = false; // Simulating loading state, replace with actual logic
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -14,7 +13,7 @@ const SignUpPage = () => {
     confirmPassword: "",
   });
 
-  const { signup } = useUserStore(); // Assuming useUserStore is imported from zustand store
+  const { signup, loading } = useUserStore();
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Form submitted", formData);
@@ -32,9 +31,17 @@ const SignUpPage = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.9 }}
       >
-        <h2 className="mt-8 text-center text-3xl font-extralight tracking-normal text-black">
-          Sign up
-        </h2>
+        <div className="flex flex-col items-center">
+          <h2 className="mt-8 text-center text-3xl font-extralight tracking-normal text-black">
+            <img
+              src="../src/assets/jetstore_logo_nobg.png"
+              alt=""
+              width={50}
+              className="ml-5 mb-5"
+            />
+            Sign up
+          </h2>
+        </div>
       </motion.div>
       <motion.div
         className="mt-8 sm:mx-auto sm:w-full sm:max-w-md"

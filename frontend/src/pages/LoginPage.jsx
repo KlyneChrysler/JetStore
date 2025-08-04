@@ -3,18 +3,20 @@ import waveBackground from "../assets/sign_in_wave.png";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Loader, Lock, Mail, User, UserPlus } from "lucide-react";
+import { useUserStore } from "../stores/useUserStore";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const loading = false; // true
+
+  const { login, loading } = useUserStore();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Email:", email);
-    console.log("Password:", password);
-    // Handle login logic here
+    console.log(email, password);
+    login(email, password);
   };
+
   return (
     <div
       className="w-full min-h-screen overflow-y-auto bg-cover bg-[rgba(250,245,235,1)] bg-center flex flex-col justify-center py-12 sm:px-6 lg:px-8"
@@ -26,9 +28,17 @@ const LoginPage = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.9 }}
       >
-        <h2 className="mt-8 text-center text-3xl font-extralight tracking-normal text-black">
-          Log in
-        </h2>
+        <div className="flex flex-col items-center">
+          <h2 className="mt-8 text-center text-3xl font-extralight tracking-normal text-black">
+            <img
+              src="../src/assets/jetstore_logo_nobg.png"
+              alt=""
+              width={50}
+              className="ml-3 mb-5"
+            />
+            Log in
+          </h2>
+        </div>
       </motion.div>
       <motion.div
         className="mt-8 sm:mx-auto sm:w-full sm:max-w-md"
