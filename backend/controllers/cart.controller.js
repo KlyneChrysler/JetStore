@@ -75,7 +75,7 @@ export const updateQuantity = async (req, res) => {
   try {
     const { id: productId } = req.params; // I'm getting the product ID from the URL parameters
     const { quantity } = req.body; // Now I’m grabbing the new quantity from the request body
-    const { user } = req.user; // I'm accessing the logged-in user from the request
+    const user = req.user; // I'm accessing the logged-in user from the request
 
     // I’m checking if the product already exists in the user's cart
     const existingItem = user.cartItems.find((item) => item.id === productId);

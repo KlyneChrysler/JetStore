@@ -5,7 +5,7 @@ export const createCheckoutSession = async (req, res) => {
   try {
     const { products, couponCode } = req.body;
 
-    if (!Array.isArray(products) || product.length === 0) {
+    if (!Array.isArray(products) || products.length === 0) {
       return res.status(400).json({ error: "Invalid product data" });
     }
 
@@ -104,7 +104,7 @@ export const checkoutSuccess = async (req, res) => {
       const newOrder = new Order({
         user: session.metadata.userId,
         products: products.map((product) => ({
-          product: products.id,
+          product: product.id,
           quantity: product.quantity,
           price: product.price,
         })),

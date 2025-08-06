@@ -148,7 +148,7 @@ export const refreshToken = async (req, res) => {
     const refreshToken = req.cookies.refreshToken;
     // if refreshToken is null then get feedback
     if (!refreshToken) {
-      return res.status(491).json({ message: "No refresh token provided" });
+      return res.status(401).json({ message: "No refresh token provided" });
     }
     // This line verifies the refresh token using the secret key and returns the decoded payload (such as the user ID) if the token is valid.
     const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);

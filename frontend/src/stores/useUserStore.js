@@ -22,7 +22,8 @@ export const useUserStore = create((set, get) => ({
         email,
         password,
       });
-      set({ user: res.data.user, loading: false });
+      toast.success("Signed up successfully");
+      set({ user: res.data, loading: false });
     } catch (error) {
       set({ loading: false });
       console.log("Error:", error);
@@ -33,7 +34,7 @@ export const useUserStore = create((set, get) => ({
     }
   },
 
-  login: async ({ email, password }) => {
+  login: async (email, password) => {
     set({ loading: true });
 
     try {
@@ -42,13 +43,38 @@ export const useUserStore = create((set, get) => ({
         email,
         password,
       });
-      set({ user: res.data.user, loading: false });
+
+      toast.success("Logged in successfully");
+      set({ user: res.data, loading: false });
     } catch (error) {
       set({ loading: false });
       console.log("Error:", error);
       toast.error(
         error.response?.data.message ||
           "An error occurred during signup, please try again."
+      );
+    }
+  },
+
+  checkAuth: async () => {
+    set({ checkingAuth: true });
+    try {
+      const response = await axios.get("/auth/profile");
+      set({ user: response.data, checkingAuth: false });
+    } catch (error) {
+      set({ checkingAuth: false, user: null });
+    }
+  },
+
+  logout: async () => {
+    try {
+      await axios.post("/auth/logout");
+      set({ user: null });
+      toast.success("Logged out successfully");
+    } catch (error) {
+      console.error("Logout error:", error);
+      toast.error(
+        error.response?.data.message || "An error occurred during logout"
       );
     }
   },

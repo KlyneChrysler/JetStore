@@ -32,13 +32,13 @@ const SignUpPage = () => {
         transition={{ duration: 0.9 }}
       >
         <div className="flex flex-col items-center">
-          <h2 className="mt-8 text-center text-3xl font-extralight tracking-normal text-black">
-            <img
+          <h2 className="mt-24 text-center text-3xl font-thin tracking-widest text-black">
+            {/* <img
               src="../src/assets/jetstore_logo_nobg.png"
               alt=""
               width={50}
               className="ml-5 mb-5"
-            />
+            /> */}
             Sign up
           </h2>
         </div>
@@ -49,7 +49,7 @@ const SignUpPage = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.9, delay: 0.2 }}
       >
-        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10 border border-black/20">
+        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10 border border-black/20 mb-24">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label

@@ -15,15 +15,16 @@ import { connectDB } from "./lib/db.js";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 // configurations
 app.use(
   cors({
-    origin: "http://localhost:5173", // Your frontend URL
-    credentials: true, // Important for cookies since you're using authentication
+    origin: "http://localhost:5173", // Vite frontend port
+    credentials: true, // Allow sending cookies (important for sessions)
   })
 );
+
 app.use(express.json()); // parser of the body of the requests
 app.use(cookieParser()); // cookie parser method
 // routes

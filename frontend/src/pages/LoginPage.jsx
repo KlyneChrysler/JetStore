@@ -29,14 +29,14 @@ const LoginPage = () => {
         transition={{ duration: 0.9 }}
       >
         <div className="flex flex-col items-center">
-          <h2 className="mt-8 text-center text-3xl font-extralight tracking-normal text-black">
-            <img
+          <h2 className="mt-24 text-center text-3xl font-thin tracking-widest text-black">
+            {/* <img
               src="../src/assets/jetstore_logo_nobg.png"
               alt=""
               width={50}
               className="ml-3 mb-5"
-            />
-            Log in
+            /> */}
+            Sign in
           </h2>
         </div>
       </motion.div>
@@ -46,7 +46,7 @@ const LoginPage = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.9, delay: 0.2 }}
       >
-        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10 border border-black/20">
+        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10 border border-black/20 mb-24">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label
@@ -105,7 +105,7 @@ const LoginPage = () => {
                 htmlFor="terms"
                 className="text-sm text-gray-600 text-justify leading-snug"
               >
-                By signing up, you agree to our{" "}
+                By signing in, you agree to our{" "}
                 <a
                   href="https://www.termsfeed.com/live/9447fef1-85c5-40f9-8d58-d557899c3f83"
                   target="_blank"
