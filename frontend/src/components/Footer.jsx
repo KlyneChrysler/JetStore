@@ -19,10 +19,10 @@ const Footer = () => {
             </span>
           </div>
           <div className="flex flex-col gap-2">
-            <div className="text-sm font-thin">
+            <div className="text-sm font-thin mt-2">
               Built to Bloom, Just for You.
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-4 mt-2">
               <div>
                 <a
                   href="https://github.com/KlyneChrysler"
@@ -116,8 +116,10 @@ const Footer = () => {
           </div>
         </div>
       </div>
-
-      <div className="flex justify-between px-36 pt-24 text-white tracking-widest">
+      <div className="flex justify-between px-36  ">
+        <div className="border border-b border-gray-500/30 rounded-md w-full"></div>
+      </div>
+      <div className="flex justify-between px-36 pt-8 text-white tracking-widest">
         <div className=" text-sm font-thin hover:text-gray-500 transition-colors duration-300">
           © 2025 Klyne, Co. All rights reserved.
         </div>

@@ -25,7 +25,7 @@ app.use(
   })
 );
 
-app.use(express.json()); // parser of the body of the requests
+app.use(express.json({ limit: "250kb" })); // parser of the body of the requests
 app.use(cookieParser()); // cookie parser method
 // routes
 app.use("/api/auth", authRoutes); // authentication route // the endpoint is handled by the authRoutes file

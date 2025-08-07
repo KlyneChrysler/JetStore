@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 const CategoryItem = ({ category }) => {
   return (
     <motion.div
-      className="relative overflow-hidden w-full max-w-sm h-auto bg-white rounded-3xl shadow-md group hover:shadow-lg"
+      className="relative overflow-hidden w-full max-w-sm h-auto bg-white rounded-3xl shadow-md group hover:scale-105 hover:shadow-lg"
       initial={{ opacity: 0, y: 0 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.9 }}

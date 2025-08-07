@@ -4,14 +4,20 @@ import CreateProductForm from "../components/CreateProductForm";
 import ProductsList from "../components/ProductsList";
 import AnalyticsTab from "../components/AnalyticsTab";
 import { motion } from "framer-motion";
+import { useProductStore } from "../stores/useProductStore";
 
 const tabs = [
-  { id: "products", label: "PRODUCTS", icon: ShoppingBasket },
+  { id: "products", label: "STOCKS", icon: ShoppingBasket },
   { id: "create", label: "MY STORE", icon: PlusCircle },
-  { id: "analytics", label: "ANALYTICS", icon: BarChart },
+  { id: "analytics", label: "REPORTS", icon: BarChart },
 ];
 const AdminPage = () => {
   const [activeTab, setActiveTab] = useState("analytics");
+  const { fetchAllProducts } = useProductStore();
+
+  useState(() => {
+    fetchAllProducts();
+  }, [fetchAllProducts]);
 
   return (
     <motion.div
@@ -36,9 +42,9 @@ const AdminPage = () => {
         >
           Admin Dashboard
         </motion.h1> */}
-        <img src="" alt="" />
+        {/* <img src="" alt="" /> */}
 
-        <div className="flex justify-center mb-8 gap-20">
+        <div className="flex justify-start mb-8 gap-20">
           {tabs.map((tab) => (
             <button
               key={tab.id}
