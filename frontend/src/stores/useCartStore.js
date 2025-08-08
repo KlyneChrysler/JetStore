@@ -18,7 +18,7 @@ export const useCartStore = create((set, get) => ({
       set({ cart: [] });
       toast.error(
         error.response?.data.message ||
-          "An error occurred during cart fetching, please try again."
+          "Something went wrong. Please try again."
       );
     }
   },
@@ -26,7 +26,7 @@ export const useCartStore = create((set, get) => ({
   addToCart: async (product) => {
     try {
       await axios.post("/cart", { productId: product._id });
-      toast.success("Product added to cart successfully");
+      toast.success("Added to cart");
 
       set((prevState) => {
         const existingItem = prevState.cart.find(
@@ -45,7 +45,7 @@ export const useCartStore = create((set, get) => ({
     } catch (error) {
       toast.error(
         error.response?.data.message ||
-          "An error occurred during product addition to cart, please try again."
+          "Something went wrong. Please try again."
       );
     }
   },

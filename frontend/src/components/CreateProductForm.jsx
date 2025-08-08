@@ -41,9 +41,7 @@ const CreateProductForm = () => {
       });
     } catch (error) {
       console.log("Error creating product", error.message);
-      toast.error(
-        "An error occurred during product creation, please try again."
-      );
+      toast.error("Something went wrong. Please try again.");
     }
   };
 

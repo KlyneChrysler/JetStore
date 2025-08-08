@@ -29,7 +29,7 @@ export const useUserStore = create((set, get) => ({
       console.log("Error:", error);
       toast.error(
         error.response?.data.message ||
-          "An error occurred during signup, please try again."
+          "Something went wrong. Please try again."
       );
     }
   },
@@ -51,7 +51,7 @@ export const useUserStore = create((set, get) => ({
       console.log("Error:", error);
       toast.error(
         error.response?.data.message ||
-          "An error occurred during signup, please try again."
+          "Something went wrong. Please try again."
       );
     }
   },
@@ -75,7 +75,8 @@ export const useUserStore = create((set, get) => ({
     } catch (error) {
       console.error("Logout error:", error);
       toast.error(
-        error.response?.data.message || "An error occurred during logout"
+        error.response?.data.message ||
+          "Something went wrong. Please try again."
       );
     }
   },

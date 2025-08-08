@@ -46,7 +46,7 @@ const Navbar = () => {
                   CART
                 </span>
                 {cart.length > 0 && (
-                  <span className="absolute -top-2 -left-2 bg-yellow-400 text-black rounded-full px-2 py-0.5 text-xs group-hover:bg-yellow-500 transition duration-300 ease-in-out">
+                  <span className="absolute -top-2 -left-2 bg-yellow-500 text-black rounded-full px-2 py-0.5 text-xs font-medium group-hover:bg-yellow-500 transition duration-300 ease-in-out">
                     {cart.length}
                   </span>
                 )}

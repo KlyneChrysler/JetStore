@@ -13,7 +13,7 @@ const OrderSummary = () => {
 
   return (
     <motion.div
-      className="space-y-4 rounded-lg border border-gray-700 bg-gray-800 p-4 shadow-sm sm:p-6"
+      className="space-y-4 rounded-lg border-0 overflow-visible border-black/10 bg-red-50/10 p-4 shadow-xl hover:scale-125 transition-all duration-500 ease-in-out sm:p-6"
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.6 }}
@@ -23,18 +23,18 @@ const OrderSummary = () => {
       <div className="space-y-4">
         <div className="space-y-2">
           <dl className="flex items-center justify-between gap-4">
-            <dt className="text-base font-normal text-gray-300">
+            <dt className="text-base font-normal text-gray-500">
               Original Price
             </dt>
-            <dd className="text-base font-medium text-white">
+            <dd className="text-base font-medium text-black">
               ${formattedSubtotal}
             </dd>
           </dl>
 
           {savings > 0 && (
             <dl className="flex items-center justify-between gap-4">
-              <dt className="text-base font-normal text-gray-300">Savings</dt>
-              <dd className="text-base font-medium text-emerald-400">
+              <dt className="text-base font-normal text-black">Savings</dt>
+              <dd className="text-base font-medium text-black">
                 -${formattedSavings}
               </dd>
             </dl>
@@ -42,18 +42,18 @@ const OrderSummary = () => {
 
           {coupon && isCouponApplied && (
             <dl className="flex items-center justify-between gap-4">
-              <dt className="text-base font-normal text-gray-300">
+              <dt className="text-base font-normal text-black">
                 Coupon ({coupon.code})
               </dt>
-              <dd className="text-base font-medium text-emerald-400">
+              <dd className="text-base font-medium text-black">
                 -{coupon.discountPercentage}%
               </dd>
             </dl>
           )}
 
           <dl className="flex items-center justify-between gap-4 border-t border-gray-600 pt-2">
-            <dt className="text-base fold-bold text-white">Total</dt>
-            <dd className="text-base font-bold text-emerald-400">
+            <dt className="text-base fold-bold text-black">Total</dt>
+            <dd className="text-base font-bold text-black">
               ${formattedTotal}
             </dd>
           </dl>

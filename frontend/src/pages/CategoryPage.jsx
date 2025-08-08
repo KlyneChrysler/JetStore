@@ -33,7 +33,7 @@ const CategoryPage = () => {
           transition={{ duration: 0.9 }}
         >
           {products?.length === 0 && (
-            <h2 className="text-3xl font-semibold text-gray-300 text-center col-span-full">
+            <h2 className="text-3xl font-thin text-black tracking-widest text-center col-span-full">
               No Products Found
             </h2>
           )}

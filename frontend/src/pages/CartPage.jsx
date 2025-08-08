@@ -9,7 +9,7 @@ import { motion } from "framer-motion";
 const CartPage = () => {
   const { cart } = useCartStore();
   return (
-    <div className="py-8 md:py-16">
+    <div className="py-8 md:py-16 bg-[rgba(250,245,235,1)]">
       <div className="mx-auto max-w-screen-xl px-4 2xl:px-0">
         <div className="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">
           <motion.div
@@ -21,7 +21,7 @@ const CartPage = () => {
             {cart.length === 0 ? (
               <EmptyCartUI />
             ) : (
-              <div className="space-y-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {cart.map((item) => (
                   <CartItem key={item._id} item={item} />
                 ))}

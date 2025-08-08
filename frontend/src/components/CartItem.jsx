@@ -1,61 +1,63 @@
-import { Minus, Plus, Trash } from "lucide-react";
+import { Minus, Plus, X } from "lucide-react";
 import { useCartStore } from "../stores/useCartStore";
 
 const CartItem = ({ item }) => {
   const { removeFromCart, updateQuantity } = useCartStore();
 
   return (
-    <div className="rounded-lg border p-4 shadow-sm border-gray-700 bg-gray-800 md:p-6">
-      <div className="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
-        <div className="shrink-0 md:order-1">
-          <img className="h-20 md:h-32 rounded object-cover" src={item.image} />
-        </div>
-        <label className="sr-only">Choose quantity:</label>
+    <div className="grid grid-cols-[auto_1fr_auto] grid-rows-[auto_1fr_auto] gap-4 p-4 md:p-6 rounded-3xl hover:scale-105 transition-transform duration-500 ease-in-out shadow-xl bg-red-50/10 border-0 border-black/10">
+      <div className="row-span-3">
+        <img
+          className="h-20 w-20 md:h-32 md:w-32 rounded object-cover"
+          src={item.image}
+          alt={item.name}
+        />
+      </div>
 
-        <div className="flex items-center justify-between md:order-3 md:justify-end">
-          <div className="flex items-center gap-2">
-            <button
-              className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border
-							 border-gray-600 bg-gray-700 hover:bg-gray-600 focus:outline-none focus:ring-2
-							  focus:ring-emerald-500"
-              onClick={() => updateQuantity(item._id, item.quantity - 1)}
-            >
-              <Minus className="text-gray-300" />
-            </button>
-            <p>{item.quantity}</p>
-            <button
-              className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border
-							 border-gray-600 bg-gray-700 hover:bg-gray-600 focus:outline-none 
-						focus:ring-2 focus:ring-emerald-500"
-              onClick={() => updateQuantity(item._id, item.quantity + 1)}
-            >
-              <Plus className="text-gray-300" />
-            </button>
+      <div className="w-full flex flex-wrap items-center gap-2">
+        <p className="text-2xl font-thin tracking-wider text-black hover:scale-105 hover:text-indigo-800/90 transition-transform duration-300 ease-in-out">
+          {item.name}
+        </p>
+
+        <p className="text-sm text-black font-thin tracking-wide">
+          {item.description}
+        </p>
+      </div>
+
+      <div className="justify-self-end">
+        <button
+          className="p-1 rounded-full"
+          onClick={() => removeFromCart(item._id)}
+        >
+          <X className="text-black hover:text-red-600" />
+        </button>
+      </div>
+
+      <div className="self-end">
+        <p className="text-2xl font-bold text-indigo-800/50 px-2 py-1 rounded">
+          <div className="grid grid-rows-2">
+            <span className="font-thin text-sm mt-5 text-black">PRICE</span>$
+            {item.price}
           </div>
+        </p>
+      </div>
 
-          <div className="text-end md:order-4 md:w-32">
-            <p className="text-base font-bold text-emerald-400">
-              ${item.price}
-            </p>
-          </div>
-        </div>
+      <div className="flex items-center gap-2 justify-self-end self-end p-2 rounded-lg">
+        <button
+          className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-black/25 px-2 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-black/10"
+          onClick={() => updateQuantity(item._id, item.quantity - 1)}
+        >
+          <Minus className="text-slate-500" size={14} />
+        </button>
 
-        <div className="w-full min-w-0 flex-1 space-y-4 md:order-2 md:max-w-md">
-          <p className="text-base font-medium text-white hover:text-emerald-400 hover:underline">
-            {item.name}
-          </p>
-          <p className="text-sm text-gray-400">{item.description}</p>
+        <p className="text-slate-500">{item.quantity}</p>
 
-          <div className="flex items-center gap-4">
-            <button
-              className="inline-flex items-center text-sm font-medium text-red-400
-							 hover:text-red-300 hover:underline"
-              onClick={() => removeFromCart(item._id)}
-            >
-              <Trash />
-            </button>
-          </div>
-        </div>
+        <button
+          className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-black/25 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-black/10"
+          onClick={() => updateQuantity(item._id, item.quantity + 1)}
+        >
+          <Plus className="text-slate-500" size={14} />
+        </button>
       </div>
     </div>
   );

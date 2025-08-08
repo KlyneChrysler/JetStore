@@ -24,7 +24,7 @@ export const useProductStore = create((set) => ({
       set({ loading: false });
       toast.error(
         error.response?.data.message ||
-          "An error occurred during product creation, please try again."
+          "Something went wrong. Please try again."
       );
     }
   },
@@ -39,7 +39,7 @@ export const useProductStore = create((set) => ({
       set({ loading: false });
       toast.error(
         error.response?.data.message ||
-          "An error occurred during product fetching, please try again."
+          "Something went wrong. Please try again."
       );
     }
   },
@@ -54,7 +54,7 @@ export const useProductStore = create((set) => ({
       set({ loading: false });
       toast.error(
         error.response?.data.message ||
-          "An error occurred during product fetching, please try again."
+          "Something went wrong. Please try again."
       );
     }
   },
@@ -76,7 +76,7 @@ export const useProductStore = create((set) => ({
       set({ loading: false });
       toast.error(
         error.response?.data.message ||
-          "An error occurred during product toggle, please try again."
+          "Something went wrong. Please try again."
       );
     }
   },
@@ -100,7 +100,7 @@ export const useProductStore = create((set) => ({
       set({ loading: false });
       toast.error(
         error.response?.data.message ||
-          "An error occurred during product deletion, please try again."
+          "Something went wrong. Please try again."
       );
     }
   },
