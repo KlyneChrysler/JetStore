@@ -1,5 +1,6 @@
 import Coupon from "../models/coupon.model.js";
 import Order from "../models/order.model.js";
+import User from "../models/user.model.js";
 import { stripe } from "../lib/stripe.js";
 export const createCheckoutSession = async (req, res) => {
   try {
@@ -24,7 +25,7 @@ export const createCheckoutSession = async (req, res) => {
           },
           unit_amount: amount,
         },
-        quantity: product.quantity,
+        quantity: product.quantity || 1,
       };
     });
 
@@ -37,7 +38,7 @@ export const createCheckoutSession = async (req, res) => {
       });
       if (coupon) {
         totalAmount -= Math.round(
-          totalAmount * (coupon.discountPercentage / 100)
+          (totalAmount * coupon.discountPercentage) / 100
         );
       }
     }
@@ -60,7 +61,7 @@ export const createCheckoutSession = async (req, res) => {
         couponCode: couponCode || "",
         products: JSON.stringify(
           products.map((p) => ({
-            id: p.id,
+            id: p._id,
             quantity: p.quantity,
             price: p.price,
           }))
@@ -75,7 +76,7 @@ export const createCheckoutSession = async (req, res) => {
   } catch (error) {
     console.error("Error creating checkout session:", error);
     res.status(500).json({
-      message: "Error processing successful checkout",
+      message: "Error creating checkout session",
       error: error.message,
     });
   }
@@ -84,10 +85,19 @@ export const createCheckoutSession = async (req, res) => {
 export const checkoutSuccess = async (req, res) => {
   try {
     const { sessionId } = req.body;
+
+    if (!sessionId) {
+      return res.status(400).json({
+        success: false,
+        message: "Session ID is required",
+      });
+    }
+
     const session = await stripe.checkout.sessions.retrieve(sessionId);
 
     // Deactivate the coupon if the payment was successful
     if (session.payment_status === "paid") {
+      // Deactivate the coupon if used
       if (session.metadata.couponCode) {
         await Coupon.findOneAndUpdate(
           {
@@ -114,17 +124,23 @@ export const checkoutSuccess = async (req, res) => {
       });
 
       await newOrder.save();
+
       return res.status(200).json({
         success: true,
         message:
           "Payment successful, order created, and coupon deactivated if used",
         orderId: newOrder._id,
       });
+    } else {
+      return res.status(400).json({
+        success: false,
+        message: "Payment was not successful",
+      });
     }
   } catch (error) {
     console.error("Error processing successful checkout:", error);
     return res.status(500).json({
-      messaege: "Error processing successful checkout",
+      message: "Error processing successful checkout",
       error: error.message,
     });
   }

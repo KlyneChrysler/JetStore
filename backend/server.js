@@ -37,6 +37,6 @@ app.use("/api/analytics", analyticsRoutes); // analytics route // the endpoint i
 
 // server
 app.listen(PORT, () => {
-  console.log("[ SERVER IS RUNNING AT http://localhost:" + PORT + " ]");
+  console.log("[Server] is running on [http://localhost:" + PORT + "]");
   connectDB();
 });

@@ -9,7 +9,8 @@ const ProductCard = ({ product }) => {
 
   const handleAddToCart = () => {
     if (!user) {
-      toast("Please sign in to add items.");
+      toast("Please sign in to add items.", { id: "login" });
+      return;
     } else {
       addToCart(product);
     }
